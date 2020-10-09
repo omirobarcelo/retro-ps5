@@ -1,0 +1,15 @@
+
+/node_modules/
+
+# Sapper
+/__sapper__/
+/src/node_modules/@sapper/
+
+# Logs
+yarn-error.log
+
+# Misc
+.DS_Store
+
+# IDEs
+/.vscode/
