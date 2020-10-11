@@ -1,0 +1,5 @@
+__sapper__/
+.prettierrc
+.vscode/
+README.md
+static/

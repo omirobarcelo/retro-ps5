@@ -1,11 +1,11 @@
 <script lang="ts">
-	type Options = "op1" | "op2";
+  type Options = 'op1' | 'op2';
 
-	let opt: Options = "op2";
+  let opt: Options = 'op2';
 </script>
 
 <svelte:head>
-	<title>About</title>
+  <title>About</title>
 </svelte:head>
 
 <h1>About this site</h1>
