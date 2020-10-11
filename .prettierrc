@@ -5,7 +5,6 @@
   "singleQuote": true,
   "trailingComma": "none",
   "arrowParens": "avoid",
-  "plugins": ["prettier-plugin-svelte"],
   "svelteSortOrder" : "scripts-styles-markup",
   "svelteStrictMode": false,
   "svelteBracketNewLine": true,

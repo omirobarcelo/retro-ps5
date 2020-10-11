@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "compression": "^1.7.1",
-    "polka": "next",
+    "express": "^4.17.1",
     "sirv": "^1.0.0"
   },
   "devDependencies": {
@@ -29,8 +29,8 @@
     "@rollup/plugin-typescript": "^6.0.0",
     "@tsconfig/svelte": "^1.0.10",
     "@types/compression": "^1.7.0",
+    "@types/express": "^4.17.8",
     "@types/node": "^14.11.1",
-    "@types/polka": "^0.5.1",
     "prettier": "^2.1.2",
     "prettier-plugin-svelte": "^1.4.0",
     "rollup": "^2.3.4",
