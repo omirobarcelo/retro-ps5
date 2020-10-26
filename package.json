@@ -8,6 +8,7 @@
     "export": "sapper export --legacy",
     "start": "node __sapper__/build",
     "validate": "svelte-check --ignore src/node_modules/@sapper",
+    "e2e": "cypress open",
     "format:check": "prettier --check .",
     "format:write": "prettier --write ."
   },
@@ -31,6 +32,7 @@
     "@types/compression": "^1.7.0",
     "@types/express": "^4.17.8",
     "@types/node": "^14.11.1",
+    "cypress": "^5.4.0",
     "prettier": "^2.1.2",
     "prettier-plugin-svelte": "^1.4.0",
     "rollup": "^2.3.4",
