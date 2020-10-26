@@ -13,6 +13,10 @@ const mode = process.env.NODE_ENV;
 const dev = mode === 'development';
 const legacy = !!process.env.SAPPER_LEGACY_BUILD;
 
+const preprocess = sveltePreprocess({
+	postcss: true,
+});
+
 const onwarn = (warning, onwarn) =>
   (warning.code === 'MISSING_EXPORT' && /'preload'/.test(warning.message)) ||
   (warning.code === 'CIRCULAR_DEPENDENCY' && /[/\\]@sapper[/\\]/.test(warning.message)) ||
@@ -31,13 +35,8 @@ export default {
       svelte({
         dev,
         hydratable: true,
-        // we'll extract any component CSS out into
-        // a separate file; better for performance
-        css: css => {
-          css.write('public/build/bundle.css');
-        },
-        preprocess: sveltePreprocess(),
-        emitCss: true
+        emitCss: true,
+        preprocess: [preprocess]
       }),
       resolve({
         browser: true,
@@ -91,7 +90,7 @@ export default {
       svelte({
         generate: 'ssr',
         hydratable: true,
-        preprocess: sveltePreprocess(),
+        preprocess: [preprocess],
         dev
       }),
       resolve({
