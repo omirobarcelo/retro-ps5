@@ -14,6 +14,6 @@
 
 <p>This is the 'about' page. There's not much here.</p>
 
-<p class:m-8={ opt === 'op2' }>{opt}</p>
+<p class:m-8={opt === 'op2'}>{opt}</p>
 
 <p>{$search}</p>

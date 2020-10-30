@@ -9,7 +9,7 @@
   .main-content {
     display: flex;
   }
-  
+
   .ads {
     @apply flex-auto;
     min-width: 110px;
@@ -28,10 +28,10 @@
 <Nav {segment} />
 
 <div class="main-content">
-  <div class="ads"></div>
+  <div class="ads" />
   <main>
     <GlobalStyle />
     <slot />
   </main>
-  <div class="ads"></div>
+  <div class="ads" />
 </div>
