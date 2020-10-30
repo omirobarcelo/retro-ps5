@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { search } from '../stores/search.store';
+
   type Options = 'op1' | 'op2';
 
   let opt: Options = 'op2';
@@ -13,3 +15,5 @@
 <p>This is the 'about' page. There's not much here.</p>
 
 <p class:m-8={ opt === 'op2' }>{opt}</p>
+
+<p>{$search}</p>

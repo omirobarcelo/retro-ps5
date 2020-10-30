@@ -2,7 +2,9 @@
   import { onMount, onDestroy } from 'svelte';
   import { fromEvent, Subscription } from 'rxjs';
   import { debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators';
+  import { search } from '../stores/search.store';
 
+  // TODO disable input if segment is contact, or move to list if segment is game
   export let segment: string;
 
   let searchElem: HTMLInputElement;
@@ -18,7 +20,7 @@
           filter(val => val.length === 0 || val.length >= 3),
           distinctUntilChanged()
         )
-        .subscribe(value => console.log(value))
+        .subscribe(value => search.update(value))
     );
   });
 
