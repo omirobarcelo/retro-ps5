@@ -5,20 +5,33 @@
   export let segment: string;
 </script>
 
-<style>
+<style lang="postcss">
+  .main-content {
+    display: flex;
+  }
+  
+  .ads {
+    @apply flex-auto;
+    min-width: 110px;
+  }
+
   main {
+    @apply flex-auto;
     position: relative;
     max-width: 56em;
     background-color: white;
     padding: 2em;
     margin: 0 auto;
-    box-sizing: border-box;
   }
 </style>
 
 <Nav {segment} />
 
-<main>
-  <GlobalStyle />
-  <slot />
-</main>
+<div class="main-content">
+  <div class="ads"></div>
+  <main>
+    <GlobalStyle />
+    <slot />
+  </main>
+  <div class="ads"></div>
+</div>
