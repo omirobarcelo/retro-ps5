@@ -1,60 +1,63 @@
 <script lang="ts">
+  import { onMount, onDestroy } from 'svelte';
+  import { fromEvent, Subscription } from 'rxjs';
+  import { debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators';
+  import { search } from '../stores/search.store';
+
+  // TODO disable input if segment is contact, or move to list if segment is game
   export let segment: string;
+
+  let searchElem: HTMLInputElement;
+
+  const subscriptions = new Subscription();
+
+  onMount(() => {
+    subscriptions.add(
+      fromEvent<InputEvent>(searchElem, 'input')
+        .pipe(
+          debounceTime(350),
+          map(evt => (evt.target as HTMLInputElement).value),
+          filter(val => val.length === 0 || val.length >= 3),
+          distinctUntilChanged()
+        )
+        .subscribe(value => search.update(value))
+    );
+  });
+
+  onDestroy(() => subscriptions.unsubscribe());
 </script>
 
-<style>
-  nav {
-    border-bottom: 1px solid rgba(255, 62, 0, 0.1);
-    font-weight: 300;
-    padding: 0 1em;
-  }
-
-  ul {
-    margin: 0;
-    padding: 0;
-  }
-
-  /* clearfix */
-  ul::after {
-    content: '';
-    display: block;
-    clear: both;
-  }
-
-  li {
-    display: block;
-    float: left;
-  }
-
-  [aria-current] {
-    position: relative;
-    display: inline-block;
-  }
-
-  [aria-current]::after {
-    position: absolute;
-    content: '';
-    width: calc(100% - 1em);
-    height: 2px;
-    background-color: rgb(255, 62, 0);
-    display: block;
-    bottom: -1px;
-  }
-
-  a {
-    text-decoration: none;
-    padding: 1em 0.5em;
-    display: block;
+<style lang="postcss">
+  .svg-black {
+    stroke: black;
+    fill: black;
   }
 </style>
 
-<nav>
-  <ul>
-    <li><a aria-current={segment === undefined ? 'page' : undefined} href=".">home</a></li>
-    <li><a aria-current={segment === 'about' ? 'page' : undefined} href="about">about</a></li>
-
-    <!-- for the blog link, we're using rel=prefetch so that Sapper prefetches
-		     the blog data when we hover over the link or tap it on a touchscreen -->
-    <li><a rel=prefetch aria-current="{segment === 'blog' ? 'page' : undefined}" href="blog">blog</a></li>
-  </ul>
+<nav class="flex items-center justify-between flex-wrap bg-orange-600 p-4">
+  <div class="flex items-center flex-shrink-0 text-white mr-6">
+    <a href="." aria-current={segment === undefined ? 'page' : undefined}>
+      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" class="h-8" height="108" viewBox="0 0 324 108">
+        <use xlink:href="logo.svg#logo" class="svg-black" />
+      </svg>
+    </a>
+  </div>
+  <input
+    bind:this={searchElem}
+    class="appearance-none border w-1/2 py-1 px-2 text-gray-700 focus:outline-none focus:shadow-outline"
+    id="search"
+    type="search"
+    placeholder="Search..."
+  />
+  <div class="flex-grow flex items-center w-auto ml-6">
+    <div class="flex-grow">
+      <a
+        href="about"
+        aria-current={segment === 'contact' ? 'page' : undefined}
+        class="inline-block mt-0 text-orange-200 hover:text-white mr-4"
+      >
+        Contact
+      </a>
+    </div>
+  </div>
 </nav>
