@@ -1,4 +1,9 @@
 <style lang="postcss">
+  @font-face {
+    font-family: 'Staatliches';
+    src: url(/fonts/Staatliches-Regular.ttf), url(https://fonts.googleapis.com/css2?family=Staatliches&display=swap) format('truetype');
+  }
+
   h1 {
     @apply text-5xl uppercase font-bold m-0 mb-4 text-orange-500;
     font-family: 'Staatliches';
@@ -25,10 +30,6 @@
     height: clamp(70vh, 90vh, 1080px);
   }
 </style>
-
-<svelte:head>
-  <link href="https://fonts.googleapis.com/css2?family=Staatliches&display=swap" rel="stylesheet" />
-</svelte:head>
 
 <div class="bg py-16 px-8">
   <h2>Welcome to</h2>
