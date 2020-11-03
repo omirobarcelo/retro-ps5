@@ -34,5 +34,5 @@
 <div class="bg py-16 px-8">
   <h2>Welcome to</h2>
   <h1>Can I Play It On PS5</h1>
-  <h3>Search the games from PS4 that you want to play on PS5!</h3>
+  <h3>Check which PS4 games you can play on PS5!</h3>
 </div>
