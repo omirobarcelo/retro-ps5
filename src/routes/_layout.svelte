@@ -12,7 +12,7 @@
 
   .ads {
     @apply flex-auto;
-    min-width: 110px;
+    min-width: 120px;
     max-width: 250px;
   }
 
