@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { GameListItem } from '../data/interfaces/game-list.interface';
+  import type { GameListItem } from '../data/interfaces/game-list-item.interface';
 
   export let game: GameListItem;
 
