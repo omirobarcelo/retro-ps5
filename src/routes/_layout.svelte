@@ -12,16 +12,12 @@
 
   .ads {
     @apply flex-auto;
-    min-width: 110px;
+    min-width: 120px;
+    max-width: 250px;
   }
 
   main {
     @apply flex-auto;
-    position: relative;
-    max-width: 56em;
-    background-color: white;
-    padding: 2em;
-    margin: 0 auto;
   }
 </style>
 

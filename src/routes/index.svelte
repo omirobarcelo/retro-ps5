@@ -1,40 +1,20 @@
-<style lang="postcss">
-  h1,
-  figure,
-  p {
-    @apply text-center my-0 mx-auto;
-  }
-  h1 {
-    @apply text-3xl uppercase font-bold m-0 mb-4 text-orange-500 font-sans;
-  }
-
-  figure {
-    @apply m-0 mb-4;
-  }
-
-  img {
-    @apply w-full max-w-5xl m-0 mb-4;
-  }
-
-  p {
-    @apply my-0 mx-auto;
-  }
-  @screen md {
-    h1 {
-      @apply text-5xl;
-    }
-  }
-</style>
+<script lang="ts">
+  import Cover from '../components/Cover.svelte';
+  import List from '../components/List.svelte';
+  import { search } from '../stores/search.store';
+</script>
 
 <svelte:head>
-  <title>Sapper project template</title>
+  <title>Can I Play It On PS5</title>
+  <style>
+    body {
+      background-color: #f9f9f9;
+    }
+  </style>
 </svelte:head>
 
-<h1>Great success!</h1>
-
-<figure>
-  <img alt="Success Kid" src="successkid.jpg" />
-  <figcaption>Have fun with Sapper!</figcaption>
-</figure>
-
-<p><strong>Try editing this file (src/routes/index.svelte) to test live reloading.</strong></p>
+{#if $search.length === 0}
+  <Cover />
+{:else}
+  <List />
+{/if}
