@@ -56,7 +56,7 @@
   }
 </style>
 
-<a href=".">
+<a rel="prefetch" href="game/{game._id}">
   <div class="card">
     <img
       class="card-img"
