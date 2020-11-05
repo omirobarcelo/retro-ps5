@@ -109,7 +109,11 @@ const seedDB = async () => {
       image: 'https://images-eu.ssl-images-amazon.com/images/I/5116EF55KWL._AC_UL600_SR420,600_.jpg',
       positiveVotes: 1,
       negativeVotes: 4,
-      comments: [],
+      comments: Array.from({ length: 16 }, (_, idx) => ({
+        kind: Math.random() > 0.5 ? 'positive' : 'negative',
+        text: `Generated Lorem Ipsum ${idx}`,
+        date: new Date(2020, 9, idx + 1)
+      })),
       locked: false,
       accepted: true
     })
