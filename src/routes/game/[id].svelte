@@ -1,10 +1,14 @@
 <script context="module" lang="ts">
   export async function preload({ params }) {
     const res = await this.fetch(`game/${params.id}.json`);
-    const data = await res.json();
+    const data = await res.text();
+
+    const dateRegex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z$/;
+    const reviver = (key: string, value: unknown) =>
+      typeof value === 'string' && dateRegex.test(value) ? new Date(value) : value;
 
     if (res.status === 200) {
-      return { game: data };
+      return { game: JSON.parse(data, reviver) };
     } else {
       this.error(res.status, data.message);
     }
@@ -16,6 +20,13 @@
   import { calcPercentage } from '../../utils';
 
   export let game: GameDetail;
+
+  const PER_PAGE = 5;
+  const numPages = Math.ceil(game.comments.length / PER_PAGE);
+  let page = 0;
+  $: start = page * PER_PAGE;
+  $: end = Math.min(page * PER_PAGE + PER_PAGE, game.comments.length);
+  $: comments = [...game.comments].sort((a, b) => b.date.getTime() - a.date.getTime()).slice(start, end);
 
   const calcPercent = (value: number, total: number): number => value / total;
 
@@ -46,6 +57,25 @@
 
   const textPositivePercent = calcPercentage(game, 'positive');
   const textNegativePercent = calcPercentage(game, 'negative');
+
+  const changePage = (change: 'first' | 'prev' | 'next' | 'last') => {
+    switch (change) {
+      case 'first':
+        page = 0;
+        break;
+      case 'prev':
+        page = page > 0 ? page - 1 : 0;
+        break;
+      case 'next':
+        page = page < numPages - 1 ? page + 1 : numPages - 1;
+        break;
+      case 'last':
+        page = numPages - 1;
+        break;
+      default:
+        break;
+    }
+  };
 </script>
 
 <style lang="postcss">
@@ -105,6 +135,63 @@
   .neg-path {
     fill: theme('colors.red.600');
   }
+
+  .comments-area {
+    @apply mt-4;
+  }
+
+  .comments-area .comment-box:not(:last-child) {
+    @apply mb-2;
+  }
+
+  .comment-box {
+    @apply border-2 px-2 py-1;
+  }
+
+  .positive-comment {
+    @apply border-green-600 bg-green-300;
+  }
+
+  .negative-comment {
+    @apply border-red-600 bg-red-300;
+  }
+
+  .comment-date {
+    @apply text-right border-b;
+  }
+
+  .positive-comment .comment-date {
+    @apply border-green-600;
+  }
+
+  .negative-comment .comment-date {
+    @apply border-red-600;
+  }
+
+  .comment-text {
+    @apply mt-1;
+  }
+
+  .pagination {
+    @apply mt-2 border-t border-black pt-1 flex;
+  }
+
+  .num-comments {
+    @apply text-sm;
+  }
+
+  .pagination .btn-group {
+    @apply inline-flex;
+    margin-left: auto;
+  }
+
+  .pagination .btn {
+    @apply bg-transparent text-black font-semibold py-1 px-2 border border-black text-sm;
+  }
+
+  .pagination .btn:hover {
+    @apply bg-orange-600 text-white border-transparent;
+  }
 </style>
 
 <svelte:head>
@@ -141,9 +228,28 @@
 
   <div>Vote area</div>
 
-  <div>
-    {#each game.comments as comment}
-      <div>{comment.text}</div>
+  <div class="comments-area">
+    {#each comments as comment}
+      <div
+        class="comment-box"
+        class:positive-comment={comment.kind === 'positive'}
+        class:negative-comment={comment.kind === 'negative'}
+      >
+        <p class="comment-date">{new Intl.DateTimeFormat().format(comment.date)}</p>
+        <p class="comment-text">{comment.text}</p>
+      </div>
     {/each}
+  </div>
+  <div class="pagination">
+    <span class="num-comments">
+      <!-- Math.min needed in case there are 0 comments -->
+      Showing {Math.min(start + 1, end)} to {end} of {game.comments.length} comments
+    </span>
+    <div class="btn-group space-x-1">
+      <button class="btn rounded-l" on:click={() => changePage('first')}> First </button>
+      <button class="btn" on:click={() => changePage('prev')}> Previous </button>
+      <button class="btn" on:click={() => changePage('next')}> Next </button>
+      <button class="btn rounded-r" on:click={() => changePage('last')}> Last </button>
+    </div>
   </div>
 </div>
