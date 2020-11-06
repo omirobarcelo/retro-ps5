@@ -3,7 +3,7 @@
     const res = await this.fetch(`game/${params.id}.json`);
     const data = await res.text();
 
-    const dateRegex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z$/;
+    const dateRegex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/;
     const reviver = (key: string, value: unknown) =>
       typeof value === 'string' && dateRegex.test(value) ? new Date(value) : value;
 
@@ -20,6 +20,8 @@
   import { calcPercentage } from '../../utils';
 
   export let game: GameDetail;
+
+  let selected: 'positive' | 'negative';
 
   const PER_PAGE = 5;
   const numPages = Math.ceil(game.comments.length / PER_PAGE);
@@ -136,6 +138,67 @@
     fill: theme('colors.red.600');
   }
 
+  .vote-area {
+    @apply w-3/5 mt-4;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .vote-area .btn-group {
+    @apply flex;
+  }
+
+  .vote-area .btn {
+    @apply border-4 px-8 py-2 text-xl;
+  }
+
+  .vote-area .btn:hover {
+    @apply border-4 px-8 py-2 text-xl;
+    cursor: pointer;
+  }
+
+  .vote-area .btn.positive {
+    @apply border-green-800 bg-green-300 text-green-800;
+  }
+
+  .vote-area .btn.positive:hover,
+  .vote-area .btn.positive.selected {
+    @apply bg-green-500;
+  }
+
+  .vote-area .btn.negative {
+    @apply border-red-800 bg-red-300 text-red-800;
+  }
+
+  .vote-area .btn.negative:hover,
+  .vote-area .btn.negative.selected {
+    @apply bg-red-500;
+  }
+
+  .vote-area .btn-vote {
+    /* margin-top is used to push down the button in the btn-group,
+      vertical padding is applied automatically */
+    @apply px-4 border border-black bg-white text-lg mt-3;
+    margin-left: auto;
+  }
+
+  .vote-area .btn-vote:hover {
+    @apply bg-orange-600 text-white;
+  }
+
+  .vote-area .btn-vote[disabled] {
+    @apply bg-gray-400 text-black cursor-not-allowed;
+  }
+
+  .vote-area textarea {
+    @apply mt-2 p-1 block w-full transition duration-150 ease-in-out;
+    resize: none;
+  }
+
+  .vote-area textarea:focus {
+    @apply outline-none shadow-outline;
+  }
+
   .comments-area {
     @apply mt-4;
   }
@@ -226,7 +289,18 @@
     </div>
   </div>
 
-  <div>Vote area</div>
+  <div class="vote-area">
+    <div class="btn-group space-x-8">
+      <div class="btn positive" class:selected={selected === 'positive'} on:click={() => (selected = 'positive')}>
+        Yes
+      </div>
+      <div class="btn negative" class:selected={selected === 'negative'} on:click={() => (selected = 'negative')}>
+        No
+      </div>
+      <button class="btn-vote" disabled={!selected}>Vote</button>
+    </div>
+    <textarea rows="5" placeholder="(Optional) Can you specify how it or it doesn't work?" />
+  </div>
 
   <div class="comments-area">
     {#each comments as comment}
@@ -243,7 +317,15 @@
   <div class="pagination">
     <span class="num-comments">
       <!-- Math.min needed in case there are 0 comments -->
-      Showing {Math.min(start + 1, end)} to {end} of {game.comments.length} comments
+      
+      
+      
+      Showing {Math.min(start + 1, end)}
+      to
+      {end}
+      of
+      {game.comments.length}
+      comments
     </span>
     <div class="btn-group space-x-1">
       <button class="btn rounded-l" on:click={() => changePage('first')}> First </button>
