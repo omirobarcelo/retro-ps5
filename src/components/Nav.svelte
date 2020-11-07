@@ -52,7 +52,7 @@
   <div class="flex-grow flex items-center w-auto ml-6">
     <div class="flex-grow">
       <a
-        href="about"
+        href="contact"
         aria-current={segment === 'contact' ? 'page' : undefined}
         class="inline-block mt-0 text-orange-200 hover:text-white mr-4"
       >

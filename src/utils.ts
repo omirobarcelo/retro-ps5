@@ -18,8 +18,8 @@ export const dateRegex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/;
 
 /**
  * Reviver function to parse date string to Date objects
- * @param key 
- * @param value 
+ * @param key
+ * @param value
  */
 export const reviver = (key: string, value: unknown) =>
   typeof value === 'string' && dateRegex.test(value) ? new Date(value) : value;
