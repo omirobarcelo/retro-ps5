@@ -52,7 +52,7 @@ interface IGameDocument extends Document {
   image: string;
   positiveVotes: number;
   negativeVotes: number;
-  comments: { kind: CommentKind; text: string; date: Date };
+  comments: { kind: CommentKind; text: string; date: Date }[];
   locked: boolean;
   accepted: boolean;
 
