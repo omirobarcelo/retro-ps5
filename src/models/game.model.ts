@@ -1,4 +1,5 @@
 import { Document, model, Model, QueryFindOptions, Schema } from 'mongoose';
+import type { CommentKind } from '../data/types/comment-kind.type';
 
 const gameSchema = new Schema(
   {
@@ -14,20 +15,15 @@ const gameSchema = new Schema(
       default: 0,
       required: true
     },
-    positiveComments: [
-      {
-        text: { type: String },
-        date: { type: Date, default: Date.now }
-      }
-    ],
     negativeVotes: {
       type: Number,
       min: 0,
       default: 0,
       required: true
     },
-    negativeComments: [
+    comments: [
       {
+        kind: { type: String, enum: ['positive', 'negative'] },
         text: { type: String },
         date: { type: Date, default: Date.now }
       }
@@ -55,9 +51,8 @@ interface IGameDocument extends Document {
   altNames: string[];
   image: string;
   positiveVotes: number;
-  positiveComments: { text: string; date: Date };
   negativeVotes: number;
-  negativeComments: { text: string; date: Date };
+  comments: { kind: CommentKind; text: string; date: Date }[];
   locked: boolean;
   accepted: boolean;
 

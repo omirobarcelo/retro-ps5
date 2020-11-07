@@ -1,13 +1,8 @@
 <script lang="ts">
-  import type { GameListItem } from '../data/interfaces/game-list.interface';
+  import type { GameListItem } from '../data/interfaces/game-list-item.interface';
+  import { calcPercentage } from '../utils';
 
   export let game: GameListItem;
-
-  const calcPercentage = (game: GameListItem, type: 'positive' | 'negative'): string => {
-    const votes = type === 'positive' ? game.positiveVotes : game.negativeVotes;
-    const perc = (votes * 100) / (game.positiveVotes + game.negativeVotes);
-    return `${perc.toFixed(2)}%`;
-  };
 
   const positivePercent = calcPercentage(game, 'positive');
   const negativePercent = calcPercentage(game, 'negative');
@@ -56,7 +51,7 @@
   }
 </style>
 
-<a href=".">
+<a rel="prefetch" href="game/{game._id}">
   <div class="card">
     <img
       class="card-img"

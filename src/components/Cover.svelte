@@ -1,7 +1,8 @@
 <style lang="postcss">
   @font-face {
     font-family: 'Staatliches';
-    src: url(/fonts/Staatliches-Regular.ttf), url(https://fonts.googleapis.com/css2?family=Staatliches&display=swap) format('truetype');
+    src: url(/fonts/Staatliches-Regular.ttf),
+      url(https://fonts.googleapis.com/css2?family=Staatliches&display=swap) format('truetype');
   }
 
   h1 {

@@ -39,19 +39,20 @@ const seedDB = async () => {
       altNames: ['Zanki Zero'],
       image: 'https://upload.wikimedia.org/wikipedia/en/3/31/Zanki_Zero_cover.png',
       positiveVotes: 5,
-      positiveComments: [
+      negativeVotes: 1,
+      comments: [
         {
+          kind: 'positive',
           text: 'Lorem Ipsum',
           date: new Date(2020, 10, 10)
         },
         {
+          kind: 'positive',
           text: 'Lorem Ipsum 2',
           date: new Date(2020, 10, 12)
-        }
-      ],
-      negativeVotes: 1,
-      negativeComments: [
+        },
         {
+          kind: 'negative',
           text: 'Bad Lorem Ipsum',
           date: new Date(2020, 10, 10)
         }
@@ -65,9 +66,8 @@ const seedDB = async () => {
       name: 'Zero Time Dilemma',
       altNames: ['Zero Escape 3'],
       positiveVotes: 5,
-      positiveComments: [],
       negativeVotes: 1,
-      negativeComments: [],
+      comments: [],
       locked: false,
       accepted: true
     })
@@ -78,9 +78,8 @@ const seedDB = async () => {
       altNames: ['Zero Escape 2'],
       image: 'https://upload.wikimedia.org/wikipedia/en/e/e3/Virtue%27s_Last_Reward_3DS_Boxart.jpg',
       positiveVotes: 5,
-      positiveComments: [],
       negativeVotes: 1,
-      negativeComments: [],
+      comments: [],
       locked: false,
       accepted: true
     })
@@ -91,14 +90,14 @@ const seedDB = async () => {
       altNames: ['Fatal Frame', 'Zero'],
       image: 'https://images-na.ssl-images-amazon.com/images/I/514FS26YANL._SY445_.jpg',
       positiveVotes: 3,
-      positiveComments: [
+      negativeVotes: 3,
+      comments: [
         {
+          kind: 'positive',
           text: 'New Lorem Ipsum',
           date: new Date(2020, 9, 9)
         }
       ],
-      negativeVotes: 3,
-      negativeComments: [],
       locked: false,
       accepted: true
     })
@@ -109,9 +108,12 @@ const seedDB = async () => {
       altNames: ['Fatal Frame 2', 'Fatal Frame: Crimson Butterfly', 'Zero 2'],
       image: 'https://images-eu.ssl-images-amazon.com/images/I/5116EF55KWL._AC_UL600_SR420,600_.jpg',
       positiveVotes: 1,
-      positiveComments: [],
       negativeVotes: 4,
-      negativeComments: [],
+      comments: Array.from({ length: 16 }, (_, idx) => ({
+        kind: Math.random() > 0.5 ? 'positive' : 'negative',
+        text: `Generated Lorem Ipsum ${idx}`,
+        date: new Date(2020, 9, idx + 1)
+      })),
       locked: false,
       accepted: true
     })
@@ -123,9 +125,8 @@ const seedDB = async () => {
       image:
         'https://upload.wikimedia.org/wikipedia/en/thumb/7/77/Project_Zero_MOBW_PAL_box.jpg/220px-Project_Zero_MOBW_PAL_box.jpg',
       positiveVotes: 5,
-      positiveComments: [],
       negativeVotes: 0,
-      negativeComments: [],
+      comments: [],
       locked: false,
       accepted: false
     })
