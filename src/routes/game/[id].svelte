@@ -1,11 +1,9 @@
 <script context="module" lang="ts">
+  import { reviver } from '../../utils';
+
   export async function preload({ params }) {
     const res = await this.fetch(`game/${params.id}.json`);
     const data = await res.text();
-
-    const dateRegex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/;
-    const reviver = (key: string, value: unknown) =>
-      typeof value === 'string' && dateRegex.test(value) ? new Date(value) : value;
 
     if (res.status === 200) {
       return { game: JSON.parse(data, reviver) };
@@ -22,9 +20,10 @@
   export let game: GameDetail;
 
   let selected: 'positive' | 'negative';
+  let comment: string = '';
 
   const PER_PAGE = 5;
-  const numPages = Math.ceil(game.comments.length / PER_PAGE);
+  $: numPages = Math.ceil(game.comments.length / PER_PAGE);
   let page = 0;
   $: start = page * PER_PAGE;
   $: end = Math.min(page * PER_PAGE + PER_PAGE, game.comments.length);
@@ -43,22 +42,22 @@
   const generatePath = (start: [number, number], end: [number, number], largeArcFlag: number): string =>
     `M ${start[0]} ${start[1]} A 1 1 0 ${largeArcFlag} 1 ${end[0]} ${end[1]} L 0 0`;
 
-  const positivePercent = calcPercent(game.positiveVotes, game.positiveVotes + game.negativeVotes);
-  const positivePath = generatePath(
+  $: positivePercent = calcPercent(game.positiveVotes, game.positiveVotes + game.negativeVotes);
+  $: positivePath = generatePath(
     getCoordinatesForPercent(0),
     getCoordinatesForPercent(positivePercent),
     isLargeArcPath(positivePercent)
   );
 
-  const negativePercent = calcPercent(game.negativeVotes, game.positiveVotes + game.negativeVotes);
-  const negativePath = generatePath(
+  $: negativePercent = calcPercent(game.negativeVotes, game.positiveVotes + game.negativeVotes);
+  $: negativePath = generatePath(
     getCoordinatesForPercent(positivePercent),
     getCoordinatesForPercent(100),
     isLargeArcPath(negativePercent)
   );
 
-  const textPositivePercent = calcPercentage(game, 'positive');
-  const textNegativePercent = calcPercentage(game, 'negative');
+  $: textPositivePercent = calcPercentage(game, 'positive');
+  $: textNegativePercent = calcPercentage(game, 'negative');
 
   const changePage = (change: 'first' | 'prev' | 'next' | 'last') => {
     switch (change) {
@@ -78,6 +77,18 @@
         break;
     }
   };
+
+  function sendVote() {
+    fetch(`game/${game._id}.json`, {
+      method: 'PATCH',
+      body: JSON.stringify({ vote: selected, comment }),
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8'
+      }
+    })
+      .then(res => res.text())
+      .then(text => (game = JSON.parse(text, reviver)));
+  }
 </script>
 
 <style lang="postcss">
@@ -289,18 +300,20 @@
     </div>
   </div>
 
-  <div class="vote-area">
-    <div class="btn-group space-x-8">
-      <div class="btn positive" class:selected={selected === 'positive'} on:click={() => (selected = 'positive')}>
-        Yes
+  {#if !game.locked}
+    <div class="vote-area">
+      <div class="btn-group space-x-8">
+        <div class="btn positive" class:selected={selected === 'positive'} on:click={() => (selected = 'positive')}>
+          Yes
+        </div>
+        <div class="btn negative" class:selected={selected === 'negative'} on:click={() => (selected = 'negative')}>
+          No
+        </div>
+        <button class="btn-vote" disabled={!selected} on:click={sendVote}>Vote</button>
       </div>
-      <div class="btn negative" class:selected={selected === 'negative'} on:click={() => (selected = 'negative')}>
-        No
-      </div>
-      <button class="btn-vote" disabled={!selected}>Vote</button>
+      <textarea rows="5" placeholder="(Optional) Can you specify how it or it doesn't work?" bind:value={comment} />
     </div>
-    <textarea rows="5" placeholder="(Optional) Can you specify how it or it doesn't work?" />
-  </div>
+  {/if}
 
   <div class="comments-area">
     {#each comments as comment}
@@ -317,6 +330,10 @@
   <div class="pagination">
     <span class="num-comments">
       <!-- Math.min needed in case there are 0 comments -->
+      
+      
+      
+      
       
       
       
