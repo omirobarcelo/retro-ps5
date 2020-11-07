@@ -330,13 +330,6 @@
   <div class="pagination">
     <span class="num-comments">
       <!-- Math.min needed in case there are 0 comments -->
-      
-      
-      
-      
-      
-      
-      
       Showing {Math.min(start + 1, end)}
       to
       {end}
