@@ -1,4 +1,6 @@
 <script lang="ts">
+  import Alert from '../components/Alert.svelte';
+
   let title: string = '';
   let description: string = '';
 
@@ -69,22 +71,6 @@
   button:disabled {
     @apply bg-gray-500 text-gray-100 cursor-not-allowed;
   }
-
-  .alert {
-    @apply flex items-center text-white text-sm font-bold px-4 py-3;
-  }
-
-  .alert.success {
-    @apply bg-green-500;
-  }
-
-  .alert.error {
-    @apply bg-red-500;
-  }
-
-  .alert svg {
-    @apply w-4 h-4 mr-2;
-  }
 </style>
 
 <svelte:head>
@@ -115,21 +101,12 @@
 
   {#if serverRes}
     {#if serverRes.successful}
-      <div class="alert success" role="alert">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12">
-          <path stroke-width="2" stroke="white" fill="none" d="M0.5,8 L4,11.5 L11.5,3" />
-        </svg>
-        <p>Your contact request was successfully received!</p>
-      </div>
+      <Alert type="success" message="Your contact request was successfully received!" />
     {:else}
-      <div class="alert error" role="alert">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12">
-          <path stroke-width="2" stroke="white" fill="none" d="M0.5,0.5 L11.5,11.5 M11.5,0.5 L0.5,11.5" />
-        </svg>
-        <p>
-          {serverRes.errorMsg ? serverRes.errorMsg : 'There was a problem sending your contact request. Please, try again.'}
-        </p>
-      </div>
+      <Alert
+        type="error"
+        message={serverRes.errorMsg ? serverRes.errorMsg : 'There was a problem sending your contact request. Please, try again.'}
+      />
     {/if}
   {/if}
 </div>

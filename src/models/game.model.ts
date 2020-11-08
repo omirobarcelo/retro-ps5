@@ -45,7 +45,7 @@ gameSchema.statics.findByNameOrAlt = async function (
     .or([{ name: containsQuery }, { altNames: containsQuery }]);
 };
 
-interface IGameDocument extends Document {
+export interface IGameDocument extends Document {
   // Fields
   name: string;
   altNames: string[];
