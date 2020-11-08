@@ -28,6 +28,23 @@
     @apply py-6 flex flex-col items-center;
   }
 
+  form {
+    @apply w-full pt-6 pb-8 mb-4;
+    max-width: 768px;
+  }
+
+  .img-title-area {
+    @apply flex;
+  }
+
+  .img-area {
+    @apply flex-none;
+  }
+
+  .title-area {
+    @apply flex-auto;
+  }
+
   label {
     @apply block text-gray-700 text-sm font-bold mb-2;
   }
@@ -71,15 +88,14 @@
   }
 
   .vote-area .btn-group {
-    @apply flex;
+    @apply flex justify-center;
   }
 
   .vote-area .btn {
-    @apply border-4 px-8 py-2 text-xl;
+    @apply border-4 px-6 py-1 text-lg;
   }
 
   .vote-area .btn:hover {
-    @apply border-4 px-8 py-2 text-xl;
     cursor: pointer;
   }
 
@@ -116,23 +132,27 @@
 </svelte:head>
 
 <div class="create-container">
-  <form class="pt-6 pb-8 mb-4" on:submit|preventDefault={createGame}>
-    <div>
-      <img src={image ? image : IMG_PLACEHOLDER} alt="Cover" on:error={imageError} />
-      <input id="image" type="url" placeholder="Cover URL" bind:value={image} />
-    </div>
-    <div class="mb-4">
-      <label for="title"> Title </label>
-      <input id="title" type="text" placeholder="Title" bind:value={name} required />
-    </div>
-    <div>
-      <div class="inline-flex items-baseline">
-        <label for="alt-title"> Alternative Titles </label>
-        <button type="button" class="btn-add" on:click={() => (altNames = [...altNames, ''])}>+</button>
+  <form on:submit|preventDefault={createGame}>
+    <div class="img-title-area space-x-6">
+      <div class="img-area">
+        <img src={image ? image : IMG_PLACEHOLDER} alt="Cover" on:error={imageError} />
+        <input id="image" type="url" placeholder="Cover URL" bind:value={image} />
       </div>
-      {#each altNames as altName, idx}
-        <input id={`alt-name-${idx}`} type="text" placeholder="Alternative Title" bind:value={altNames[idx]} />
-      {/each}
+      <div class="title-area">
+        <div class="mb-4">
+          <label for="title"> Title </label>
+          <input id="title" type="text" placeholder="Title" bind:value={name} required />
+        </div>
+        <div>
+          <div class="inline-flex items-baseline">
+            <label for="alt-title"> Alternative Titles </label>
+            <button type="button" class="btn-add" on:click={() => (altNames = [...altNames, ''])}>+</button>
+          </div>
+          {#each altNames as altName, idx}
+            <input id={`alt-name-${idx}`} type="text" placeholder="Alternative Title" bind:value={altNames[idx]} />
+          {/each}
+        </div>
+      </div>
     </div>
     <div class="vote-area">
       <div class="btn-group space-x-8">
