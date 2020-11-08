@@ -24,7 +24,7 @@ contactSchema.statics.findUndealt = async function (): Promise<IContactDocument[
   return (this as IContactModel).find({ dealt: false }).sort({ createdAt: 0 });
 };
 
-interface IContactDocument extends Document {
+export interface IContactDocument extends Document {
   // Fields
   title: string;
   description: string;
