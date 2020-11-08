@@ -1,4 +1,6 @@
 <script lang="ts">
+  import Alert from '../components/Alert.svelte';
+
   let name: string = '';
   let altNames: string[] = [];
   let image: string = '';
@@ -9,17 +11,24 @@
 
   $: disabled = !(name && vote);
 
+  let serverRes: { successful: boolean; errorMsg?: string };
+
   function imageError() {
     IMG_PLACEHOLDER = 'https://via.placeholder.com/290x380.png?text=URL+Not+Valid';
     image = '';
   }
 
   async function createGame() {
-    console.log(name);
-    console.log(altNames);
-    console.log(image);
-    console.log(vote);
-    console.log(comment);
+    fetch(`game/create`, {
+      method: 'POST',
+      body: JSON.stringify({ name, altNames, image, vote, comment }),
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8'
+      }
+    })
+      .then(res => res.json())
+      .then(data => (serverRes = { successful: true }))
+      .catch(err => (serverRes = err));
   }
 </script>
 
@@ -163,4 +172,15 @@
     </div>
     <div class="flex items-center justify-between"><button type="submit" {disabled}> Create </button></div>
   </form>
+
+  {#if serverRes}
+    {#if serverRes.successful}
+      <Alert type="success" message="Your game has been successfully saved and it's awaiting review!" />
+    {:else}
+      <Alert
+        type="error"
+        message={serverRes.errorMsg ? serverRes.errorMsg : 'There was a problem sending your game entry. Please, try again.'}
+      />
+    {/if}
+  {/if}
 </div>
