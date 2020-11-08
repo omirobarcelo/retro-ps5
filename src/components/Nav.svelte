@@ -4,8 +4,9 @@
   import { debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators';
   import { search } from '../stores/search.store';
 
-  // TODO disable input if segment is contact, or move to list if segment is game
+  // TODO disable input if segment is create, or move to list if segment is game or contact
   export let segment: string;
+  // TODO if segment is create, update search to be empty
 
   let searchElem: HTMLInputElement;
 
