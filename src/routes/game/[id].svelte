@@ -277,7 +277,7 @@
 
   <div class="main-data">
     <img
-      src={game.image ? game.image : 'https://via.placeholder.com/145x190.png?text=Cover+Not+Found'}
+      src={game.image ? game.image : 'https://via.placeholder.com/290x380.png?text=Cover+Not+Found'}
       alt={`${game.name} cover`}
       class="cover-img"
     />
@@ -328,14 +328,9 @@
     {/each}
   </div>
   <div class="pagination">
+    <!-- Math.min needed in case there are 0 comments -->
     <span class="num-comments">
-      <!-- Math.min needed in case there are 0 comments -->
-      Showing {Math.min(start + 1, end)}
-      to
-      {end}
-      of
-      {game.comments.length}
-      comments
+      Showing {Math.min(start + 1, end)} to {end} of {game.comments.length} comments
     </span>
     <div class="btn-group space-x-1">
       <button class="btn rounded-l" on:click={() => changePage('first')}> First </button>
