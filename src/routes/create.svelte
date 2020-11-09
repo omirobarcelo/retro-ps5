@@ -34,7 +34,7 @@
 
 <style lang="postcss">
   .create-container {
-    @apply py-6 flex flex-col items-center;
+    @apply px-2 py-2 flex flex-col items-center;
   }
 
   form {
@@ -43,11 +43,13 @@
   }
 
   .img-title-area {
-    @apply flex;
+    @apply flex flex-col;
   }
 
   .img-area {
-    @apply flex-none;
+    @apply flex-none mb-4;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .title-area {
@@ -91,7 +93,7 @@
   }
 
   .vote-area {
-    @apply w-3/5 mt-4;
+    @apply w-full mt-4 mb-4;
     margin-left: auto;
     margin-right: auto;
   }
@@ -134,6 +136,26 @@
   .vote-area textarea:focus {
     @apply outline-none border-orange-500;
   }
+
+  @screen sm {
+    .create-container {
+      @apply px-4 py-6;
+    }
+
+    .img-title-area {
+      @apply flex-row;
+    }
+
+    .img-area {
+      @apply mb-0;
+      margin-left: 0;
+      margin-right: 0;
+    }
+
+    .vote-area {
+      @apply w-3/5 mb-0;
+    }
+  }
 </style>
 
 <svelte:head>
@@ -142,7 +164,7 @@
 
 <div class="create-container">
   <form on:submit|preventDefault={createGame}>
-    <div class="img-title-area space-x-6">
+    <div class="img-title-area sm:space-x-6">
       <div class="img-area">
         <img src={image ? image : IMG_PLACEHOLDER} alt="Cover" on:error={imageError} />
         <input id="image" type="url" placeholder="Cover URL" bind:value={image} />
