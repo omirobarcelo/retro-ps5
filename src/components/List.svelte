@@ -12,7 +12,7 @@
 
 <style lang="postcss">
   .no-game {
-    @apply flex flex-col items-center pt-20;
+    @apply flex flex-col items-center text-center pt-20;
   }
 
   .no-game p {
