@@ -42,7 +42,7 @@
   const generatePath = (start: [number, number], end: [number, number], largeArcFlag: number): string =>
     `M ${start[0]} ${start[1]} A 1 1 0 ${largeArcFlag} 1 ${end[0]} ${end[1]} L 0 0`;
 
-  $: positivePercent = calcPercent(game.positiveVotes, game.positiveVotes + game.negativeVotes);
+  $: positivePercent = calcPercent(game.positiveVotes, game.positiveVotes + game.negativeVotes) + 1e-6;
   $: positivePath = generatePath(
     getCoordinatesForPercent(0),
     getCoordinatesForPercent(positivePercent),
