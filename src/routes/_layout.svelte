@@ -7,17 +7,30 @@
 
 <style lang="postcss">
   .main-content {
-    display: flex;
+    @apply flex flex-col;
   }
 
   .ads {
     @apply flex-auto;
     min-width: 120px;
-    max-width: 250px;
+    min-height: 100px;
+    max-width: 100%;
+    max-height: 100px;
   }
 
   main {
     @apply flex-auto;
+  }
+
+  @screen sm {
+    .main-content {
+      @apply flex-row;
+    }
+
+    .ads {
+      max-width: 320px;
+      max-height: 100%;
+    }
   }
 </style>
 

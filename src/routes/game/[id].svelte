@@ -101,15 +101,17 @@
   }
 
   .main-data {
-    @apply mt-4 flex;
+    @apply mt-4 flex flex-col;
   }
 
   .cover-img {
-    @apply flex-none w-2/5;
+    @apply flex-none mb-4;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .info-area {
-    @apply flex-auto ml-8;
+    @apply flex-auto ml-0;
   }
 
   .alt-titles {
@@ -138,7 +140,7 @@
   }
 
   svg {
-    @apply w-3/5 mt-4;
+    @apply w-full mt-4;
   }
 
   .pos-path {
@@ -150,7 +152,7 @@
   }
 
   .vote-area {
-    @apply w-3/5 mt-4;
+    @apply w-full mt-4;
     margin-left: auto;
     margin-right: auto;
   }
@@ -266,6 +268,30 @@
   .pagination .btn:hover {
     @apply bg-orange-600 text-white border-transparent;
   }
+
+  @screen sm {
+    .main-data {
+      @apply flex-row;
+    }
+
+    .cover-img {
+      @apply w-2/5 mb-0;
+      margin-left: 0;
+      margin-right: 0;
+    }
+
+    .info-area {
+      @apply ml-8;
+    }
+
+    svg {
+      @apply w-3/5;
+    }
+
+    .vote-area {
+      @apply w-3/5;
+    }
+  }
 </style>
 
 <svelte:head>
@@ -302,7 +328,7 @@
 
   {#if !game.locked}
     <div class="vote-area">
-      <div class="btn-group space-x-8">
+      <div class="btn-group space-x-4 sm:space-x-8">
         <div class="btn positive" class:selected={selected === 'positive'} on:click={() => (selected = 'positive')}>
           Yes
         </div>

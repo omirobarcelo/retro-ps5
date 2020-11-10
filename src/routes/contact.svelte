@@ -22,7 +22,7 @@
 
 <style lang="postcss">
   .contact-container {
-    @apply py-6 flex flex-col items-center;
+    @apply px-2 py-2 flex flex-col items-center;
   }
 
   h1 {
@@ -70,6 +70,12 @@
 
   button:disabled {
     @apply bg-gray-500 text-gray-100 cursor-not-allowed;
+  }
+
+  @screen sm {
+    .contact-container {
+      @apply px-4 py-6;
+    }
   }
 </style>
 
