@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { goto } from '@sapper/app';
+  import { goto } from '@sapper/app';
   import { onMount, onDestroy } from 'svelte';
   import { fromEvent, Subscription } from 'rxjs';
   import { debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators';
@@ -49,12 +49,12 @@
     order: 0;
   }
 
-  input[type="search"] {
+  input[type='search'] {
     @apply appearance-none border w-full py-1 px-2 text-gray-700 mt-3;
     order: 1;
   }
 
-  input[type="search"]:focus {
+  input[type='search']:focus {
     @apply outline-none shadow-outline;
   }
 
@@ -69,7 +69,7 @@
   }
 
   @screen sm {
-    input[type="search"] {
+    input[type='search'] {
       @apply w-1/2 mt-0;
       order: 0;
     }
